@@ -53,7 +53,7 @@ As stated in the above tutorial and in the [Prerequisites](#prerequisites), here
 * [ ] Mod-WSGI [More info below](#apche-and-wsgi)
 * [] `pigpiod`
 
-Since we are running `pigpiod` from a virtual environment, we need to install it in our venv:
+As stated in the last point above, we need to install `pigpiod`:
 
 ```bash
 wget abyz.me.uk/rpi/pigpio/pigpio.zip
@@ -63,7 +63,75 @@ make
 sudo make install
 ```
 
-I will also include a version of the app in this repo as a backup. 
+I will also include a version of the zip in this repo as a backup. 
+
+After you install pigpiod, run it with:
+
+```bash
+sudo pigpiod
+```
+
+Technically, you can run this outside of `venv` and it'll still work, because it's running globally and our virtual environment will have access to the daemon. But we still
+need the library in our venv, so while activated inside your virtual environment, install `pigpio` with:
+
+```bash
+pip install pigpio
+```
+
+Now when we run our `pigpio` commands, we won't get an error. 
+
+#### Apache and WSGI - Web Server
+
+The `rgbw.wsgi` file should be placed in the same directory as `rgbw.py` which contains your Flask controllers. Make sure the paths for `activate_this.py` and `rgbw.py` match
+your installation. If you rename the flask controller, you have edit the `wsgi` file to reflect the changes. 
+
+Take the `utils/apache-led.conf` configuration file and place it in the appropriate Apache/sites-available directory and enable it with with:
+
+```bash
+sudo a2ensite apache-led.conf
+```
+
+Feel free to use your own configuration and name it anything you want! This should be used as a template.
+ 
+Once that's done, restart Apache with:
+
+```bash
+sudo service apache2 restart
+```
+
+If you get a WSGI error, your Pi may not have Mod-WSGI installed. Run the following and restart apache:
+
+```bash
+sudo apt install libapache2-mod-wsgi-py3 -y
+``` 
+
+**Note** the apache configuration enables `CORS` from all origins. If you don't want to enable CORS and want to handle these requests another way, 
+remove this line in `apache-led.conf`:
+
+```
+Header set Access-Control-Allow-Origin "*"
+```
+
+IF you have this enable, you must enable `mod_headers` on your Pi with the following command for this to work:
+
+```bash
+sudo a2enmod headers
+```
+
+As long as you don't open your Pi to the outside world, you should be fine. You can also specify which origins are allowed to make requests.  
+
+
+If everything is set up correctly, the AJAX call will happen with the following url: `http://{{ip_addr}}/api/kitchen?status=on`
+
+Only a status of `on` or `off` are accepted. Anything else will return a simple error message. Open up the JavaScript console for more info.  
+
+### API endpoints
+
+#### `/api/lr?red=255&green=255&blue=255&white=255`
+
+You can pass in 4 different query string parameters of red, green, blue, and white with values of 0 to 255. A value of 0 means off (or no power) 
+and 255 means on (or full power). Different combinations will cause different colors and brightnesses. The Frontend should allow you to send these
+using a color picker.
 
 ## Authors
 * **Nazmus Nasir** - [Nazm.us](https://nazm.us) - Owner of EasyProgramming.net
