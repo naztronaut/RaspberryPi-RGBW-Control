@@ -44,10 +44,6 @@ body {
     font-weight: bold;
 }
 
-#multi {
-    display: none;
+#btnToggle {
+    margin-bottom: 50px;
 }
-
-/*#btnToggle {*/
-    /*margin-bottom: 50px;*/
-/*}*/
