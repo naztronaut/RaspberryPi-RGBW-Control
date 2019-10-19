@@ -3,7 +3,7 @@ import pigpio
 
 
 app = Flask(__name__)
-
+pi = pigpio.pi()
 
 # {{url}}/led?status=on
 @app.route('/', methods=['GET'])
@@ -13,8 +13,6 @@ def led():
     green = int(request.args.get('green')) if (request.args.get('green')) else 0
     blue = int(request.args.get('blue')) if (request.args.get('blue')) else 0
     # white = int(request.args.get('white')) if (request.args.get('white')) else 0
-
-    pi = pigpio.pi()
 
     pi.set_PWM_dutycycle(24, red)
     pi.set_PWM_dutycycle(20, blue)
@@ -29,7 +27,6 @@ def led():
 @app.route('/white', methods=['GET'])
 def white():
     white = int(request.args.get('white')) if (request.args.get('white')) else 0
-    pi = pigpio.pi()
 
     pi.set_PWM_dutycycle(18, white)
     return jsonify({"white": white})

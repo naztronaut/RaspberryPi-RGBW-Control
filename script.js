@@ -77,7 +77,7 @@ $(document).ready(function() {
 
         // let state;
         if(whiteStatus == 0) {
-            whiteStatus = 255;
+            whiteStatus = Math.floor(255);
         } else {
             whiteStatus = 0;
         }

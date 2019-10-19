@@ -47,3 +47,9 @@ body {
 #btnToggle {
     margin-bottom: 50px;
 }
+
+.pickr .pcr-button {
+    height: 5em !important;
+    width: 5em !important;
+    box-shadow: 10px 15px 15px 0 rgba(0,0,0,0.33), 0 6px 8px 0 rgba(0,0,0,0.19);
+}
