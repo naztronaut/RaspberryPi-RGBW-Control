@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <head>
+        <title>Easy Programming - Control Kitchen Cabinet Lights</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="includes/bootstrap.min.css">
+        <script src="includes/jquery.min.js"></script>
+        <script src="script.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link href="includes/sourcecodepro.css" rel="stylesheet">
+        <link href="includes/obitron.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark d-flex justify-content-between">
+          <div class="p-2"><a class="navbar-brand" href="#">Easy Programming </a></div> 
+            <div class="p-2"><span id="subtitle">Kitchen Cabinet Lights</span></div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-block btn-dark" id="btnToggle">Turn On</button>
+                </div>
+            </div>
+            <div id="multi">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-dark single" id="kitchenLeft" data-side="Left">Left On</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-dark single" id="kitchenRight" data-side="Right">Right On</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

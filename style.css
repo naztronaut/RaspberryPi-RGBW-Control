@@ -1,0 +1,53 @@
+body {
+    font-family: 'Source Code Pro', monospace;
+/*    font-family: 'Teko', sans-serif;*/
+}
+
+.btn {
+/*
+    padding: 3.5em 2.5em;
+    font-size: 2.7em;
+*/
+    padding: 1.8em 0.7em;
+    font-size: 5rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    box-shadow: 10px 15px 15px 0 rgba(0,0,0,0.33), 0 6px 8px 0 rgba(0,0,0,0.19);
+}
+
+#kitchenLeft, #kitchenRight {
+    font-size: 1.5rem;
+    padding: 0.5em 0.7em !important;
+    margin-bottom: 50px;
+}
+
+.col {
+    padding-top: 25px;
+}
+
+/*
+#turnOnBtn {
+    font-size: 3em;
+}
+*/
+.row {
+    padding-top: 50px;
+}
+
+#subtitle {
+    color: #fff;
+    font-size: 1em
+}
+
+.navbar-brand {
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+#multi {
+    display: none;
+}
+
+/*#btnToggle {*/
+    /*margin-bottom: 50px;*/
+/*}*/
