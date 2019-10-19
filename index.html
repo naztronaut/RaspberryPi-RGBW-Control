@@ -5,6 +5,9 @@
         <title>Easy Programming - Control Kitchen Cabinet Lights</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="includes/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
         <script src="includes/jquery.min.js"></script>
         <script src="script.js"></script>
         <link rel="stylesheet" href="style.css">
@@ -17,6 +20,11 @@
             <div class="p-2"><span id="subtitle">Kitchen Cabinet Lights</span></div>
         </nav>
         <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="color-picker"></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-block btn-dark" id="btnToggle">Turn On</button>

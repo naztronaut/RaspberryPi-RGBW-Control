@@ -133,6 +133,25 @@ You can pass in 4 different query string parameters of red, green, blue, and whi
 and 255 means on (or full power). Different combinations will cause different colors and brightnesses. The Frontend should allow you to send these
 using a color picker.
 
+These parameters are optional. If they are not sent, they will automatically be given a value of 0. For example, the following request:
+
+```
+/api/lr?red=255&white=150 
+```
+
+Will return this:
+
+```json
+{
+    "blue": 0,
+    "green": 0,
+    "red": "255",
+    "white": "150"
+}
+```
+
+Sending no values will turn the lights off. 
+
 ## Authors
 * **Nazmus Nasir** - [Nazm.us](https://nazm.us) - Owner of EasyProgramming.net
 
