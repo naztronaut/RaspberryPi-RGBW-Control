@@ -3,7 +3,7 @@
 Controlling RGBW LED Strip lights from your browser with a Raspberry Pi Zero.
 
 <center>
-<img src="./img/thumbnail.png" width="700px" alt="Kitchen Cabinet Raspberry Pi Lights">
+<img src="./img/thumbnail.png" width="700px" alt="RGBW Raspberry Pi Lights">
 </center>
 
 ## Getting Started
@@ -127,9 +127,9 @@ Only a status of `on` or `off` are accepted. Anything else will return a simple 
 
 ### API endpoints
 
-#### `/api/lr?red=255&green=255&blue=255&white=255`
+#### `/api/lr?red=255&green=255&blue=255`
 
-You can pass in 4 different query string parameters of red, green, blue, and white with values of 0 to 255. A value of 0 means off (or no power) 
+You can pass in 4 different query string parameters of red, green, and bluewith values of 0 to 255. A value of 0 means off (or no power) 
 and 255 means on (or full power). Different combinations will cause different colors and brightnesses. The Frontend should allow you to send these
 using a color picker.
 
@@ -146,11 +146,15 @@ Will return this:
     "blue": 0,
     "green": 0,
     "red": "255",
-    "white": "150"
 }
 ```
 
-Sending no values will turn the lights off. 
+Sending no values will turn the lights off.
+
+#### `/api/lr/white?white&blue=255`
+
+The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
+I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
 
 ## Authors
 * **Nazmus Nasir** - [Nazm.us](https://nazm.us) - Owner of EasyProgramming.net
