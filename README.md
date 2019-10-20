@@ -65,7 +65,7 @@ sudo make install
 
 I will also include a version of the zip in this repo as a backup. 
 
-After you install pigpiod, run it with:
+After you install `pigpiod`, run it with:
 
 ```bash
 sudo pigpiod
@@ -155,6 +155,21 @@ Sending no values will turn the lights off.
 
 The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
 I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
+
+### Crontab
+When the Pi first boots, `pigpiod` is not automatically started. To ensure that it starts properly,  I'd recommend entering this into your crontab. First edit crontab with this:
+
+```bash
+crontab -e
+```
+
+Then enter this in the file and save:
+
+```
+@reboot sudo pigpiod
+```
+
+If you don't do this, the next time your Pi reboots, `pigpiod` won't be running and your lights won't work until you turn it on. 
 
 ## Authors
 * **Nazmus Nasir** - [Nazm.us](https://nazm.us) - Owner of EasyProgramming.net
