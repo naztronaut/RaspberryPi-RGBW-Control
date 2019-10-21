@@ -37,5 +37,5 @@ def white():
 
 @app.route('/getRGB', methods=['GET'])
 def get_rgb():
-    with open('/var/www/html/rgbw/rgb.json', 'w') as f:
+    with open('/var/www/html/rgbw/rgb.json', 'r') as f:
         return json.load(f)
