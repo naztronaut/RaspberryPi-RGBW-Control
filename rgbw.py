@@ -33,3 +33,9 @@ def white():
 
     pi.set_PWM_dutycycle(18, white)
     return jsonify({"white": white})
+
+
+@app.route('/getRGB', methods=['GET'])
+def get_rgb():
+    with open('/var/www/html/rgbw/rgb.json', 'w') as f:
+        return jsonify(f)

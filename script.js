@@ -6,6 +6,7 @@ let whiteStatus = 0;
 
 $(document).ready(function() {
     btnStatus();
+    getRGBStatus();
     // Cache buster added because caching was a big problem on mobile
     let cacheBuster = new Date().getTime();
     const pickr = Pickr.create({
@@ -63,7 +64,7 @@ $(document).ready(function() {
         console.log(queryBuilder);
 
         $.ajax({
-            url: `${config.url}/api/lr?${queryBuilder}&${cacheBuster}`,
+            url: `${config.url}/api/lr/?${queryBuilder}&${cacheBuster}`,
             method: 'GET',
             dataType: 'json',
             cache: false,
@@ -103,6 +104,22 @@ $(document).ready(function() {
             $('#btnToggle').text('Turn Off')
             $('#btnToggle').removeClass().addClass('btn btn-block btn-light');
         }
+    }
+
+    function getRGBStatus() {
+        $.ajax({
+            url: `${config.url}/api/getRGB?${cacheBuster}`,
+            method: 'GET',
+            success: function(result) {
+                console.log(result);
+                let colors = {
+                    red: result.red,
+                    green: result.green,
+                    blue: result.blue
+                };
+                pickr.setColor(colors);
+            },
+        });
     }
 
 });
