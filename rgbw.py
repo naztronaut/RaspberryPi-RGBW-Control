@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import pigpio
+import json
 
 
 app = Flask(__name__)
@@ -20,6 +21,8 @@ def led():
     # pi.set_PWM_dutycycle(18, white)
 
     # return jsonify({"red": red, "green": green, "blue": blue, "white": white})
+    with open('/var/www/html/rgbw/rgb.json', 'w') as f:
+        json.dumps({"red": red, "green": green, "blue": blue}, f)
     return jsonify({"red": red, "green": green, "blue": blue})
 
 
