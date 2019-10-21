@@ -39,7 +39,7 @@ def white():
 
 @app.route('/getStatus', methods=['GET'])
 def get_status():
-    colors = request.args.get('colors')
+    colors = str(request.args.get('colors'))
 
     with open('/var/www/html/rgbw/' + colors + '.json', 'r') as f:
         return json.load(f)
