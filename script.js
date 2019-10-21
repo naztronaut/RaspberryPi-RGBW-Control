@@ -112,7 +112,7 @@ $(document).ready(function() {
     // Get RGB Status so Color Picker in UI is set to that color on page load
     function getLEDStatus(color) {
         $.ajax({
-            url: `${config.url}/api/lr/getStatus?${color}&${cacheBuster}`,
+            url: `${config.url}/api/lr/getStatus?colors=${color}&${cacheBuster}`,
             method: 'GET',
             success: function(result) {
                 if(color == 'rgb') {
