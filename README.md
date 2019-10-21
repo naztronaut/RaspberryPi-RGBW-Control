@@ -78,7 +78,21 @@ need the library in our venv, so while activated inside your virtual environment
 pip install pigpio
 ```
 
-Now when we run our `pigpio` commands, we won't get an error. 
+Now when we run our `pigpio` commands, we won't get an error.
+
+### The Stack
+
+#### JavaScript - Script.js - Frontend
+
+The `script.js` has jQuery that calls the Flask app using simple AJAX calls. They assume that the path for the flask app is `/api/lr` - 
+if you use another path, change this in the JavaScript to avoid getting 404s on your AJAX calls. You can also modify the API endpoints in `rgbw.py`.
+
+The script also utilizes [Pickr](https://github.com/Simonwep/pickr) for the color picker. If updates are needed, feel free to look at that repo and grab the latest. 
+
+##### Cache Busting
+
+I use a basic cache busting system in the JavaScript by looking at the current time for the request and appending it to the AJAX request looking for `status.txt` because 
+I've noticed that browsers love to store this in memory, especially mobile browsers. This ensures that we don't have to worry about caching.  
 
 #### Apache and WSGI - Web Server
 
