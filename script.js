@@ -5,10 +5,12 @@ let config = {
 let whiteStatus = 0;
 
 $(document).ready(function() {
-    btnStatus();
-    getRGBStatus();
     // Cache buster added because caching was a big problem on mobile
     let cacheBuster = new Date().getTime();
+
+    btnStatus();
+    getRGBStatus();
+
     const pickr = Pickr.create({
         el: '.color-picker',
         theme: 'classic', // or 'monolith', or 'nano'
