@@ -5,9 +5,13 @@ let config = {
 let whiteStatus = 0;
 
 $(document).ready(function() {
-    btnStatus();
     // Cache buster added because caching was a big problem on mobile
     let cacheBuster = new Date().getTime();
+
+    // btnStatus();
+    getLEDStatus('rgb');
+    getLEDStatus('white');
+
     const pickr = Pickr.create({
         el: '.color-picker',
         theme: 'classic', // or 'monolith', or 'nano'
@@ -19,7 +23,7 @@ $(document).ready(function() {
             'rgba(255, 0, 0, 1)',
             'rgba(0, 255, 0, 1)',
             'rgba(0, 0, 255, 1)',
-            // 'rgba(255, 250.0, 0, 1)', // yellow broken
+            'rgba(255, 255, 0, 1)', // yellow broken
             'rgba(255, 0, 255, 1)',
             'rgba(0, 255, 255, 1)',
             'rgba(255, 255, 255, 1)',
@@ -47,8 +51,9 @@ $(document).ready(function() {
         }
     });
 
-    pickr.on('swatchselect', e => {
+    pickr.off().on('swatchselect', e => {
         sendData(e);
+        pickr.setColor(e.toRGBA().toString(0));
     });
     pickr.on('save', e => {
         sendData(e);
@@ -60,10 +65,9 @@ $(document).ready(function() {
         let green = Math.floor(obj[1]);
         let blue = Math.floor(obj[2]);
         let queryBuilder = `red=${red}&green=${green}&blue=${blue}`;
-        console.log(queryBuilder);
 
         $.ajax({
-            url: `${config.url}/api/lr?${queryBuilder}&${cacheBuster}`,
+            url: `${config.url}/api/lr/?${queryBuilder}&${cacheBuster}`,
             method: 'GET',
             dataType: 'json',
             cache: false,
@@ -103,6 +107,23 @@ $(document).ready(function() {
             $('#btnToggle').text('Turn Off')
             $('#btnToggle').removeClass().addClass('btn btn-block btn-light');
         }
+    }
+
+    // Get RGB Status so Color Picker in UI is set to that color on page load
+    function getLEDStatus(color) {
+        $.ajax({
+            url: `${config.url}/api/lr/getStatus?colors=${color}&${cacheBuster}`,
+            method: 'GET',
+            success: function(result) {
+                if(color == 'rgb') {
+                    let colors = `rgb(${result.red}, ${result.green}, ${result.blue})`;
+                    pickr.setColor(colors);
+                } else {
+                    whiteStatus = result.white;
+                    btnStatus();
+                }
+            },
+        });
     }
 
 });

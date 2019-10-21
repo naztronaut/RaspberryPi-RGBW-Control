@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import pigpio
+import json
 
 
 app = Flask(__name__)
@@ -20,13 +21,26 @@ def led():
     # pi.set_PWM_dutycycle(18, white)
 
     # return jsonify({"red": red, "green": green, "blue": blue, "white": white})
+    with open('/var/www/html/rgbw/rgb.json', 'w') as f:
+        json.dump({"red": red, "green": green, "blue": blue}, f)
     return jsonify({"red": red, "green": green, "blue": blue})
 
 
 # Separated white button for now so it can be controlled separately
+# Reading/writing to JSON file: https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
 @app.route('/white', methods=['GET'])
 def white():
     white = int(request.args.get('white')) if (request.args.get('white')) else 0
 
     pi.set_PWM_dutycycle(18, white)
+    with open('/var/www/html/rgbw/white.json', 'w') as f:
+        json.dump({"white": white}, f)
     return jsonify({"white": white})
+
+
+@app.route('/getStatus', methods=['GET'])
+def get_status():
+    colors = str(request.args.get('colors'))
+
+    with open('/var/www/html/rgbw/' + colors + '.json', 'r') as f:
+        return json.load(f)

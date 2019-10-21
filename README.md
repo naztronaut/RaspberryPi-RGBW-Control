@@ -78,7 +78,31 @@ need the library in our venv, so while activated inside your virtual environment
 pip install pigpio
 ```
 
-Now when we run our `pigpio` commands, we won't get an error. 
+Now when we run our `pigpio` commands, we won't get an error.
+
+### The Stack
+
+#### JavaScript - Script.js - Frontend
+
+The `script.js` has jQuery that calls the Flask app using simple AJAX calls. They assume that the path for the flask app is `/api/lr` - 
+if you use another path, change this in the JavaScript to avoid getting 404s on your AJAX calls. You can also modify the API endpoints in `rgbw.py`.
+
+The script also utilizes [Pickr](https://github.com/Simonwep/pickr) for the color picker. If updates are needed, feel free to look at that repo and grab the latest. 
+
+##### Configurable options
+
+This config object in `script.js` allows you to configure the  URL for your Pi. The default is an ip address but if you can access your Pi via a hostname or domain name,
+just chnage the url properly to reflect the address: 
+```javascript
+let config = {
+    url: 'http://{{ip_addr}'
+};
+```
+
+##### Cache Busting
+
+I use a basic cache busting system in the JavaScript by looking at the current time for the request and appending it to the AJAX request looking for `status.txt` because 
+I've noticed that browsers love to store this in memory, especially mobile browsers. This ensures that we don't have to worry about caching.  
 
 #### Apache and WSGI - Web Server
 
@@ -136,14 +160,14 @@ using a color picker.
 These parameters are optional. If they are not sent, they will automatically be given a value of 0. For example, the following request:
 
 ```
-/api/lr?red=255&white=150 
+/api/lr?red=255&blue=150 
 ```
 
 Will return this:
 
 ```json
 {
-    "blue": 0,
+    "blue": 150,
     "green": 0,
     "red": "255",
 }
@@ -151,10 +175,22 @@ Will return this:
 
 Sending no values will turn the lights off.
 
-#### `/api/lr/white?white&blue=255`
+#### `/api/lr/white?white=255`
 
 The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
 I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
+
+#### `/api/lr/getStatus?colors=rgb/white'
+
+The states of the lights are held in two different JSON files. `rgb.json` which houses the Red, Green, and blue Color statuses. And `white.json` which houses the on/off
+status of the white light. You can pass in the query parameter `colors` and either `rgb` or `white` as a value to get the different states. 
+
+This data is used when the page is refreshed or loaded for the first time, then you know what color your lights are on.
+
+**Note**: `rgbw.py` needs to state the full path to the JSON files.  It is currently set to `/var/www/html/rgbw/*.json` - if you need to host this elsewhere, change this. 
+The user Pi needs to be able to write to these files as well. 
+
+I include these files in the repo because if they don't exist, the app throws a 500 Internal Server Error. By default, all values are 0.     
 
 ### Crontab
 When the Pi first boots, `pigpiod` is not automatically started. To ensure that it starts properly,  I'd recommend entering this into your crontab. First edit crontab with this:
