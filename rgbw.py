@@ -32,10 +32,14 @@ def white():
     white = int(request.args.get('white')) if (request.args.get('white')) else 0
 
     pi.set_PWM_dutycycle(18, white)
+    with open('/var/www/html/rgbw/white.json', 'w') as f:
+        json.dump({"white": white}, f)
     return jsonify({"white": white})
 
 
-@app.route('/getRGB', methods=['GET'])
-def get_rgb():
-    with open('/var/www/html/rgbw/rgb.json', 'r') as f:
+@app.route('/getStatus', methods=['GET'])
+def get_status():
+    colors = request.args.get('colors')
+
+    with open('/var/www/html/rgbw/' + colors + '.json', 'r') as f:
         return json.load(f)
