@@ -136,14 +136,14 @@ using a color picker.
 These parameters are optional. If they are not sent, they will automatically be given a value of 0. For example, the following request:
 
 ```
-/api/lr?red=255&white=150 
+/api/lr?red=255&blue=150 
 ```
 
 Will return this:
 
 ```json
 {
-    "blue": 0,
+    "blue": 150,
     "green": 0,
     "red": "255",
 }
@@ -151,10 +151,22 @@ Will return this:
 
 Sending no values will turn the lights off.
 
-#### `/api/lr/white?white&blue=255`
+#### `/api/lr/white?white=255`
 
 The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
 I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
+
+#### `/api/lr/getStatus?colors=rgb/white'
+
+The states of the lights are held in two different JSON files. `rgb.json` which houses the Red, Green, and blue Color statuses. And `white.json` which houses the on/off
+status of the white light. You can pass in the query parameter `colors` and either `rgb` or `white` as a value to get the different states. 
+
+This data is used when the page is refreshed or loaded for the first time, then you know what color your lights are on.
+
+**Note**: `rgbw.py` needs to state the full path to the JSON files.  It is currently set to `/var/www/html/rgbw/*.json` - if you need to host this elsewhere, change this. 
+The user Pi needs to be able to write to these files as well. 
+
+I include these files in the repo because if they don't exist, the app throws a 500 Internal Server Error. By default, all values are 0.     
 
 ### Crontab
 When the Pi first boots, `pigpiod` is not automatically started. To ensure that it starts properly,  I'd recommend entering this into your crontab. First edit crontab with this:
