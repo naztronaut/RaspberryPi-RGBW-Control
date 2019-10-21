@@ -27,6 +27,7 @@ def led():
 
 
 # Separated white button for now so it can be controlled separately
+# Reading/writing to JSON file: https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
 @app.route('/white', methods=['GET'])
 def white():
     white = int(request.args.get('white')) if (request.args.get('white')) else 0

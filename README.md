@@ -89,6 +89,16 @@ if you use another path, change this in the JavaScript to avoid getting 404s on 
 
 The script also utilizes [Pickr](https://github.com/Simonwep/pickr) for the color picker. If updates are needed, feel free to look at that repo and grab the latest. 
 
+##### Configurable options
+
+This config object in `script.js` allows you to configure the  URL for your Pi. The default is an ip address but if you can access your Pi via a hostname or domain name,
+just chnage the url properly to reflect the address: 
+```javascript
+let config = {
+    url: 'http://{{ip_addr}'
+};
+```
+
 ##### Cache Busting
 
 I use a basic cache busting system in the JavaScript by looking at the current time for the request and appending it to the AJAX request looking for `status.txt` because 
