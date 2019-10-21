@@ -22,7 +22,7 @@ def led():
 
     # return jsonify({"red": red, "green": green, "blue": blue, "white": white})
     with open('/var/www/html/rgbw/rgb.json', 'w') as f:
-        json.dumps({"red": red, "green": green, "blue": blue}, f)
+        json.dump({"red": red, "green": green, "blue": blue}, f)
     return jsonify({"red": red, "green": green, "blue": blue})
 
 
