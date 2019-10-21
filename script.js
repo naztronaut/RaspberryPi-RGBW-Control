@@ -110,7 +110,7 @@ $(document).ready(function() {
 
     function getRGBStatus() {
         $.ajax({
-            url: `${config.url}/api/getRGB?${cacheBuster}`,
+            url: `${config.url}/api/lr/getRGB?${cacheBuster}`,
             method: 'GET',
             success: function(result) {
                 console.log(result);
