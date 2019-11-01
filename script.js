@@ -63,6 +63,16 @@ $(document).ready(function() {
         sendData(e);
     });
 
+    $(".rgbBrightness").on('click', function (e) {
+       console.log($(this).val());
+       let newRed = Math.floor(pickr.getColor().toRGBA()[0] * ($(this).val()));
+       let newGreen = Math.floor(pickr.getColor().toRGBA()[1] * ($(this).val()));
+       let newBlue = Math.floor(pickr.getColor().toRGBA()[2] * ($(this).val()));
+       console.log(newRed, newGreen, newBlue);
+       pickr.setColor(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
+       console.log(pickr.getColor().toRGBA().toString());
+    });
+
     function sendData(e){
         let obj = e.toRGBA();
         let red = Math.floor(obj[0]);
@@ -82,25 +92,49 @@ $(document).ready(function() {
     }
 
      $('#btnToggle').on('click', function(e){
-
-        // let state;
         if(whiteStatus == 0) {
             whiteStatus = Math.floor(255);
         } else {
             whiteStatus = 0;
         }
 
-        //right
+        changeWhiteLed(whiteStatus);
+        e.preventDefault();
+    });
+
+    $('.whiteBrightness').on('click', function(e){
+        let freq = 0;
+        switch ($(this).val()) {
+            case '25':
+                freq = 64;
+                break;
+            case '50':
+                freq = 128;
+                break;
+            case '75':
+                freq = 192;
+                break;
+            case '100':
+                freq = 255;
+                break;
+            default:
+                freq = 0;
+                break;
+        }
+        changeWhiteLed(freq);
+        e.preventDefault();
+    });
+
+    function changeWhiteLed(frequency){
         $.ajax({
-            url: `${config.url}/api/lr/white?white=${whiteStatus}&${cacheBuster}`,
+            url: `${config.url}/api/lr/white?white=${frequency}&${cacheBuster}`,
             method: 'GET',
             success: function(result) {
                 console.log(result);
             },
             complete: btnStatus
         });
-        e.preventDefault();
-    });
+    }
 
     // Main big button - uses kitchenRight for master data.
     function btnStatus() {
