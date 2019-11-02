@@ -198,7 +198,7 @@ Sending no values will turn the lights off.
 The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
 I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
 
-#### `/api/lr/getStatus?colors=rgb/white'
+#### `/api/lr/getStatus?colors={rgb/white}`
 
 The states of the lights are held in two different JSON files. `rgb.json` which houses the Red, Green, and blue Color statuses. And `white.json` which houses the on/off
 status of the white light. You can pass in the query parameter `colors` and either `rgb` or `white` as a value to get the different states. 
