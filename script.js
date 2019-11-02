@@ -14,6 +14,8 @@ $(document).ready(function() {
     getLEDStatus('rgb');
     getLEDStatus('white');
 
+    let slider = document.getElementById('slider');
+
     const pickr = Pickr.create({
         el: '.color-picker',
         theme: 'classic', // or 'monolith', or 'nano'
@@ -60,28 +62,51 @@ $(document).ready(function() {
     pickr.off().on('swatchselect', e => {
         // sendData(e); // Swatchselect apparently triggers save so it triggers sendData() automatically
         pickr.setColor(e.toRGBA().toString(0));
-
-
     });
-    pickr.on('save', e => {
 
+    pickr.on('save', e => {
         // If 'save' is being triggered by brightness changes instead
         if(rgbBrightnessChange == false) {
             let tempColors = pickr.getColor().toRGBA();
             currentColors.red = Math.floor(tempColors[0]);
             currentColors.green = Math.floor(tempColors[1]);
             currentColors.blue = Math.floor(tempColors[2]);
+            slider.noUiSlider.set(100); // sets slider value to 100 if color is changed manually
+            $('.noUi-connect').css('background', `rgb(${currentColors.red}, ${currentColors.green}, ${currentColors.blue}`);
         } else {
             rgbBrightnessChange = false;
         }
         sendData(e);
     });
 
-    $(".rgbBrightness").on('click', function (e) {
-       console.log($(this).val());
-       let newRed = Math.floor(currentColors.red * ($(this).val()));
-       let newGreen = Math.floor(currentColors.green * ($(this).val()));
-       let newBlue = Math.floor(currentColors.blue * ($(this).val()));
+
+    noUiSlider.create(slider, {
+        behavior: "tap",
+        start: [100],
+        connect: [true, false],
+        // direction: 'rtl',
+        step: 5,
+        range: {
+            'min': [25],
+            'max': [100]
+        },
+        pips: {
+            mode: 'values',
+            values: [25, 50, 75, 100],
+            density: 7,
+            format: wNumb({
+                decimals: 0,
+                postfix: "%"
+            })
+        }
+    });
+
+    slider.noUiSlider.on('set', function(e) {
+       let sliderVal = (slider.noUiSlider.get()/100);
+       console.log(sliderVal);
+       let newRed = Math.floor(currentColors.red * sliderVal);
+       let newGreen = Math.floor(currentColors.green * sliderVal);
+       let newBlue = Math.floor(currentColors.blue * sliderVal);
        rgbBrightnessChange = true;
        console.log(newRed, newGreen, newBlue);
        pickr.setColor(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
