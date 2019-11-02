@@ -87,7 +87,6 @@ Now when we run our `pigpio` commands, we won't get an error.
 The `script.js` has jQuery that calls the Flask app using simple AJAX calls. They assume that the path for the flask app is `/api/lr` - 
 if you use another path, change this in the JavaScript to avoid getting 404s on your AJAX calls. You can also modify the API endpoints in `rgbw.py`.
 
-The script also utilizes [Pickr](https://github.com/Simonwep/pickr) for the color picker. If updates are needed, feel free to look at that repo and grab the latest. 
 
 ##### Configurable options
 
@@ -103,6 +102,25 @@ let config = {
 
 I use a basic cache busting system in the JavaScript by looking at the current time for the request and appending it to the AJAX request looking for `status.txt` because 
 I've noticed that browsers love to store this in memory, especially mobile browsers. This ensures that we don't have to worry about caching.  
+
+#### External Dependencies
+
+I'm using a bunch of libraries to help with various things such as AJAX calls, the brightness slider, color picker, etc. Here is a list of all external dependencies:
+
+* jQuery v3.3.1 - https://github.com/jquery/jquery
+* Pickr 1.4.5 - https://github.com/Simonwep/pickr
+  * Including its css: classic.min.css
+* noUiSlider 14.0.3 - https://github.com/leongersen/noUiSlider
+  * Including its CSS
+* wNumb.js (dependency of noUiSlider) - https://github.com/rudza/meteor-wnumb/blob/master/wNumb.js
+* Bootstrap v4.3.1 - https://github.com/twbs/bootstrap
+  * CSS only
+* Fonts
+  * obitron.css
+  * sourcecodepro.css
+  
+Note: All of these dependencies have been localized and include din the `includes` directory. This allows you to use this app without needing to connect to the internet. 
+A simple LAN connection with an internal IP will do. 
 
 #### Apache and WSGI - Web Server
 
