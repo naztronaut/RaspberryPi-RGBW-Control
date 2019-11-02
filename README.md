@@ -51,7 +51,7 @@ As stated in the above tutorial and in the [Prerequisites](#prerequisites), here
 * [ ] venv (virtual environment)
 * [ ] `activate-this.py` inside your venv
 * [ ] Mod-WSGI [More info below](#apche-and-wsgi)
-* [] `pigpiod`
+* [ ] `pigpiod`
 
 As stated in the last point above, we need to install `pigpiod`:
 
