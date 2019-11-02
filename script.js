@@ -3,6 +3,8 @@ let config = {
 };
 
 let whiteStatus = 0;
+let currentColors = {};
+let rgbBrightnessChange = false;
 
 $(document).ready(function() {
     // Cache buster added because caching was a big problem on mobile
@@ -56,21 +58,35 @@ $(document).ready(function() {
     });
 
     pickr.off().on('swatchselect', e => {
-        sendData(e);
+        // sendData(e); // Swatchselect apparently triggers save so it triggers sendData() automatically
         pickr.setColor(e.toRGBA().toString(0));
+
+
     });
     pickr.on('save', e => {
+
+        // If 'save' is being triggered by brightness changes instead
+        if(rgbBrightnessChange == false) {
+            let tempColors = pickr.getColor().toRGBA();
+            currentColors.red = Math.floor(tempColors[0]);
+            currentColors.green = Math.floor(tempColors[1]);
+            currentColors.blue = Math.floor(tempColors[2]);
+        } else {
+            rgbBrightnessChange = false;
+        }
         sendData(e);
     });
 
     $(".rgbBrightness").on('click', function (e) {
        console.log($(this).val());
-       let newRed = Math.floor(pickr.getColor().toRGBA()[0] * ($(this).val()));
-       let newGreen = Math.floor(pickr.getColor().toRGBA()[1] * ($(this).val()));
-       let newBlue = Math.floor(pickr.getColor().toRGBA()[2] * ($(this).val()));
+       let newRed = Math.floor(currentColors.red * ($(this).val()));
+       let newGreen = Math.floor(currentColors.green * ($(this).val()));
+       let newBlue = Math.floor(currentColors.blue * ($(this).val()));
+       rgbBrightnessChange = true;
        console.log(newRed, newGreen, newBlue);
        pickr.setColor(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
        console.log(pickr.getColor().toRGBA().toString());
+       console.log(currentColors);
     });
 
     function sendData(e){
@@ -87,6 +103,7 @@ $(document).ready(function() {
             cache: false,
             success: function (result) {
                 console.log(result);
+                console.log(currentColors);
             }
         });
     }
@@ -155,7 +172,11 @@ $(document).ready(function() {
             success: function(result) {
                 if(color == 'rgb') {
                     let colors = `rgb(${result.red}, ${result.green}, ${result.blue})`;
+                    currentColors.red = result.red;
+                    currentColors.green = result.green;
+                    currentColors.blue = result.blue;
                     pickr.setColor(colors);
+                    console.log(currentColors);
                 } else {
                     whiteStatus = result.white;
                     btnStatus();
