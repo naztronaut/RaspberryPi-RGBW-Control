@@ -15,6 +15,12 @@ body {
     box-shadow: 10px 15px 15px 0 rgba(0,0,0,0.33), 0 6px 8px 0 rgba(0,0,0,0.19);
 }
 
+.rgbBrightness, .whiteBrightness {
+    padding: 1em 0.5em;
+    font-size: 0.9rem;
+    margin-bottom: 35px;
+}
+
 #kitchenLeft, #kitchenRight {
     font-size: 1.5rem;
     padding: 0.5em 0.7em !important;
@@ -52,4 +58,8 @@ body {
     height: 5em !important;
     width: 5em !important;
     box-shadow: 10px 15px 15px 0 rgba(0,0,0,0.33), 0 6px 8px 0 rgba(0,0,0,0.19);
+}
+
+#slider {
+    margin: 0 7px;
 }
