@@ -63,3 +63,11 @@ body {
 #slider {
     margin: 0 7px;
 }
+
+#wSlider {
+    margin: 0 0 30px;
+}
+
+#wSlider .noUi-connect {
+    background: #000;
+}
