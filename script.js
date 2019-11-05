@@ -2,7 +2,6 @@ let config = {
     url: 'http://192.168.1.225',
 };
 
-let whiteStatus = 0;
 let currentColors = {};
 let rgbBrightnessChange = false;
 
@@ -14,7 +13,9 @@ $(document).ready(function() {
     getLEDStatus('rgb');
     getLEDStatus('white');
 
+    // RGB Slider
     let slider = document.getElementById('slider');
+    // White Slider
     let wSlider = document.getElementById('wSlider');
 
     const pickr = Pickr.create({
@@ -87,13 +88,13 @@ $(document).ready(function() {
         // direction: 'rtl',
         step: 5,
         range: {
-            'min': [25],
+            'min': [0],
             'max': [100]
         },
         pips: {
             mode: 'values',
-            values: [25, 50, 75, 100],
-            density: 7,
+            values: [0, 25, 50, 75, 100],
+            density: 5,
             format: wNumb({
                 decimals: 0,
                 postfix: "%"
@@ -133,40 +134,6 @@ $(document).ready(function() {
         });
     }
 
-    //  $('#btnToggle').on('click', function(e){
-    //     if(whiteStatus == 0) {
-    //         whiteStatus = Math.floor(255);
-    //     } else {
-    //         whiteStatus = 0;
-    //     }
-    //
-    //     changeWhiteLed(whiteStatus);
-    //     e.preventDefault();
-    // });
-
-    // $('.whiteBrightness').on('click', function(e){
-    //     let freq = 0;
-    //     switch ($(this).val()) {
-    //         case '25':
-    //             freq = 64;
-    //             break;
-    //         case '50':
-    //             freq = 128;
-    //             break;
-    //         case '75':
-    //             freq = 192;
-    //             break;
-    //         case '100':
-    //             freq = 255;
-    //             break;
-    //         default:
-    //             freq = 0;
-    //             break;
-    //     }
-    //     changeWhiteLed(freq);
-    //     e.preventDefault();
-    // });
-
     function changeWhiteLed(frequency){
         console.log(frequency);
         $.ajax({
@@ -178,25 +145,10 @@ $(document).ready(function() {
         });
     }
 
-    // Main big button - uses kitchenRight for master data.
-    // function btnStatus() {
-    //     let whiteVal = Math.floor((whiteStatus / 255) * 100);
-    //     console.log(whiteVal);
-    //     // wSlider.noUiSlider.set(whiteVal);
-    //     // if(whiteStatus == 0) {
-    //     //     $('#btnToggle').text('Turn On');
-    //     //     $('#btnToggle').removeClass().addClass('btn btn-block btn-dark');
-    //     // } else {
-    //     //     $('#btnToggle').text('Turn Off')
-    //     //     $('#btnToggle').removeClass().addClass('btn btn-block btn-light');
-    //     // }
-    // }
-
     noUiSlider.create(wSlider, {
         behavior: "tap",
         start: [100],
         connect: [false, true],
-        // direction: 'rtl',
         step: 5,
         range: {
             'min': [0],
@@ -233,9 +185,7 @@ $(document).ready(function() {
                     pickr.setColor(colors);
                     // console.log(currentColors);
                 } else {
-                    whiteStatus = result.white;
-                    wSlider.noUiSlider.set(Math.floor((whiteStatus / 255) * 100));
-                    // btnStatus();
+                    wSlider.noUiSlider.set(Math.floor((result.white / 255) * 100));
                 }
             },
         });
