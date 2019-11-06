@@ -60,12 +60,8 @@ body {
     box-shadow: 10px 15px 15px 0 rgba(0,0,0,0.33), 0 6px 8px 0 rgba(0,0,0,0.19);
 }
 
-#slider {
+#slider, #wSlider {
     margin: 0 7px;
-}
-
-#wSlider {
-    margin: 0 0 30px;
 }
 
 #wSlider .noUi-connect {

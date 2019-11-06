@@ -104,15 +104,11 @@ $(document).ready(function() {
 
     slider.noUiSlider.on('set', function(e) {
        let sliderVal = (slider.noUiSlider.get()/100);
-       // console.log(sliderVal);
        let newRed = Math.floor(currentColors.red * sliderVal);
        let newGreen = Math.floor(currentColors.green * sliderVal);
        let newBlue = Math.floor(currentColors.blue * sliderVal);
        rgbBrightnessChange = true;
-       // console.log(newRed, newGreen, newBlue);
        pickr.setColor(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
-       // console.log(pickr.getColor().toRGBA().toString());
-       // console.log(currentColors);
     });
 
     function sendData(e){
@@ -135,7 +131,6 @@ $(document).ready(function() {
     }
 
     function changeWhiteLed(frequency){
-        console.log(frequency);
         $.ajax({
             url: `${config.url}/api/lr/white?white=${frequency}&${cacheBuster}`,
             method: 'GET',
@@ -167,7 +162,6 @@ $(document).ready(function() {
 
     wSlider.noUiSlider.on('change', function(e) {
        let sliderVal = (wSlider.noUiSlider.get()/100);
-       console.log(sliderVal * 255);
        changeWhiteLed(Math.floor(sliderVal * 255));
     });
 
@@ -183,7 +177,6 @@ $(document).ready(function() {
                     currentColors.green = result.green;
                     currentColors.blue = result.blue;
                     pickr.setColor(colors);
-                    // console.log(currentColors);
                 } else {
                     wSlider.noUiSlider.set(Math.floor((result.white / 255) * 100));
                 }
