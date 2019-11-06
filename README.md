@@ -3,7 +3,7 @@
 Controlling RGBW LED Strip lights from your browser with a Raspberry Pi Zero.
 
 <center>
-<img src="./img/thumbnail.png" width="700px" alt="RGBW Raspberry Pi Lights">
+<img src="./img/thumbnail.png" width="600px" alt="RGBW Raspberry Pi Lights">
 </center>
 
 ## Getting Started
