@@ -2,7 +2,6 @@ let config = {
     url: 'http://192.168.1.225',
 };
 
-let whiteStatus = 0;
 let currentColors = {};
 let rgbBrightnessChange = false;
 
@@ -14,7 +13,10 @@ $(document).ready(function() {
     getLEDStatus('rgb');
     getLEDStatus('white');
 
+    // RGB Slider
     let slider = document.getElementById('slider');
+    // White Slider
+    let wSlider = document.getElementById('wSlider');
 
     const pickr = Pickr.create({
         el: '.color-picker',
@@ -72,13 +74,12 @@ $(document).ready(function() {
             currentColors.green = Math.floor(tempColors[1]);
             currentColors.blue = Math.floor(tempColors[2]);
             slider.noUiSlider.set(100); // sets slider value to 100 if color is changed manually
-            $('.noUi-connect').css('background', `rgb(${currentColors.red}, ${currentColors.green}, ${currentColors.blue}`);
+            $('#slider .noUi-connect').css('background', `rgb(${currentColors.red}, ${currentColors.green}, ${currentColors.blue}`);
         } else {
             rgbBrightnessChange = false;
         }
         sendData(e);
     });
-
 
     noUiSlider.create(slider, {
         behavior: "tap",
@@ -87,13 +88,13 @@ $(document).ready(function() {
         // direction: 'rtl',
         step: 5,
         range: {
-            'min': [25],
+            'min': [0],
             'max': [100]
         },
         pips: {
             mode: 'values',
-            values: [25, 50, 75, 100],
-            density: 7,
+            values: [0, 25, 50, 75, 100],
+            density: 5,
             format: wNumb({
                 decimals: 0,
                 postfix: "%"
@@ -103,15 +104,11 @@ $(document).ready(function() {
 
     slider.noUiSlider.on('set', function(e) {
        let sliderVal = (slider.noUiSlider.get()/100);
-       console.log(sliderVal);
        let newRed = Math.floor(currentColors.red * sliderVal);
        let newGreen = Math.floor(currentColors.green * sliderVal);
        let newBlue = Math.floor(currentColors.blue * sliderVal);
        rgbBrightnessChange = true;
-       console.log(newRed, newGreen, newBlue);
        pickr.setColor(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
-       console.log(pickr.getColor().toRGBA().toString());
-       console.log(currentColors);
     });
 
     function sendData(e){
@@ -127,45 +124,11 @@ $(document).ready(function() {
             dataType: 'json',
             cache: false,
             success: function (result) {
-                console.log(result);
-                console.log(currentColors);
+                // console.log(result);
+                // console.log(currentColors);
             }
         });
     }
-
-     $('#btnToggle').on('click', function(e){
-        if(whiteStatus == 0) {
-            whiteStatus = Math.floor(255);
-        } else {
-            whiteStatus = 0;
-        }
-
-        changeWhiteLed(whiteStatus);
-        e.preventDefault();
-    });
-
-    $('.whiteBrightness').on('click', function(e){
-        let freq = 0;
-        switch ($(this).val()) {
-            case '25':
-                freq = 64;
-                break;
-            case '50':
-                freq = 128;
-                break;
-            case '75':
-                freq = 192;
-                break;
-            case '100':
-                freq = 255;
-                break;
-            default:
-                freq = 0;
-                break;
-        }
-        changeWhiteLed(freq);
-        e.preventDefault();
-    });
 
     function changeWhiteLed(frequency){
         $.ajax({
@@ -173,21 +136,34 @@ $(document).ready(function() {
             method: 'GET',
             success: function(result) {
                 console.log(result);
-            },
-            complete: btnStatus
+            }
         });
     }
 
-    // Main big button - uses kitchenRight for master data.
-    function btnStatus() {
-        if(whiteStatus == 0) {
-            $('#btnToggle').text('Turn On');
-            $('#btnToggle').removeClass().addClass('btn btn-block btn-dark');
-        } else {
-            $('#btnToggle').text('Turn Off')
-            $('#btnToggle').removeClass().addClass('btn btn-block btn-light');
+    noUiSlider.create(wSlider, {
+        behavior: "tap",
+        start: [100],
+        connect: [false, true],
+        step: 5,
+        range: {
+            'min': [0],
+            'max': [100]
+        },
+        pips: {
+            mode: 'values',
+            values: [0, 25, 50, 75, 100],
+            density: 5,
+            format: wNumb({
+                decimals: 0,
+                postfix: "%"
+            })
         }
-    }
+    });
+
+    wSlider.noUiSlider.on('change', function(e) {
+       let sliderVal = (wSlider.noUiSlider.get()/100);
+       changeWhiteLed(Math.floor(sliderVal * 255));
+    });
 
     // Get RGB Status so Color Picker in UI is set to that color on page load
     function getLEDStatus(color) {
@@ -201,10 +177,8 @@ $(document).ready(function() {
                     currentColors.green = result.green;
                     currentColors.blue = result.blue;
                     pickr.setColor(colors);
-                    console.log(currentColors);
                 } else {
-                    whiteStatus = result.white;
-                    btnStatus();
+                    wSlider.noUiSlider.set(Math.floor((result.white / 255) * 100));
                 }
             },
         });
