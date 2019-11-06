@@ -43,6 +43,27 @@ the Raspberry Pi and some things we learned with JavaScript and jQuery. If you g
 
 ### Installation 
 
+####  Hardware
+
+For this project, you need 4 Mosfets, one for each color. The mosfets then need to be connected to the following GPIO Pins:
+
+| Color |  GPIO Pin |
+|-------|:---------:|
+| Red   |    24     | 
+| Green |    25     |
+| Blue  |    20     |
+| White |    18     |
+
+If you switch the pins, edit `rgb.py` to reflect the new Pins. 
+
+They must share a common ground. You can connect them all to the different ground pins on the Pi or split one out into all 4. (TODO - Fritz Diagram) 
+
+The mosfets used must be logic level so they can be turned on with the 5 volts of electricity that the Pi can provide. They should also be able to handle whatever 
+voltage and current you pass through to the lights. The lights I use are 12v 5050 SMD LEDs. This project should also work with 24v LEDs. 
+
+Creating a hat for your Pi may be a great way to go. (TODO - Post picture of my Hat)  
+
+#### Software
 Follow the tutorial here to learn how to run a Flask app behind Apache: https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php
 
 As stated in the above tutorial and in the [Prerequisites](#prerequisites), here's a very quick checklist for this project:
@@ -196,12 +217,22 @@ Sending no values will turn the lights off.
 #### `/api/lr/white?white=255`
 
 The white lights were separated for simplicity. Since the frontend color picker only produces Red, Green, and Blue color codes, the white was left out. For simplicity, 
-I've separated it so it can be turned on and off with a button instead. I will apply a brightness option later.  
+The white LED is controlled by a separate slider above the RGB one. You can control the brightness from 0% to 100%. 0% is off and 100% is technically a value of 255. 
 
 #### `/api/lr/getStatus?colors={rgb/white}`
 
-The states of the lights are held in two different JSON files. `rgb.json` which houses the Red, Green, and blue Color statuses. And `white.json` which houses the on/off
-status of the white light. You can pass in the query parameter `colors` and either `rgb` or `white` as a value to get the different states. 
+The states of the lights are held in two different JSON files. `rgb.json` which houses the Red, Green, and blue Color statuses. And `white.json` which houses the 
+frequency/brightness of the White LED. You can pass in the query parameter `colors` and either `rgb` or `white` as a value to get the different states as follow:
+
+For RGB:
+```
+/api/lr/getStatus?colors=rgb
+```
+
+For White:
+```
+/api/lr/getStatus?colors=white
+```  
 
 This data is used when the page is refreshed or loaded for the first time, then you know what color your lights are on.
 
