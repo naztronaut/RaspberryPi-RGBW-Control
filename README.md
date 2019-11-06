@@ -50,7 +50,7 @@ As stated in the above tutorial and in the [Prerequisites](#prerequisites), here
 * [ ] Apache
 * [ ] venv (virtual environment)
 * [ ] `activate-this.py` inside your venv
-* [ ] Mod-WSGI [More info below](#apche-and-wsgi)
+* [ ] Mod-WSGI [More info below](#apache-and-wsgi---web-server)
 * [ ] `pigpiod`
 
 As stated in the last point above, we need to install `pigpiod`:
