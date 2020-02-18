@@ -277,7 +277,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 # Questions ?
 Have questions? You can reach me through several different channels. You can ask a question in the  [issues forum](/../../issues), 
-on [EasyProgramming.net](https://www.easyprogramming.net), or on the vide comments on YouTube. 
+on [EasyProgramming.net](https://www.easyprogramming.net), or on the video comments on YouTube. 
 
 
 # Contribute 
