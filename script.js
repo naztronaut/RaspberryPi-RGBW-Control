@@ -16,7 +16,7 @@ $(document).ready(function() {
     // RGB Slider
     let slider = document.getElementById('slider');
     // White Slider
-    let wSlider = document.getElementById('wSlider');
+    let wSlider = document.getElementById('whiteSlider');
 
     const pickr = Pickr.create({
         el: '.color-picker',
@@ -31,7 +31,7 @@ $(document).ready(function() {
             'rgba(0, 255, 0, 1)',
             'rgba(0, 0, 255, 1)',
             'rgba(27, 161, 17, 1)',
-            'rgba(255, 255, 0, 1)', // yellow broken
+            'rgba(255, 255, 0, 1)',
             'rgba(255, 0, 255, 1)',
             'rgba(108, 16, 157, 1)',
             'rgba(0, 255, 255, 1)',
