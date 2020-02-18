@@ -22,7 +22,7 @@ In order to complete this project, you will need some of these hardware:
 * [ ] Pi Power Supply - need 5V to your Pi
 * [ ] LED Strip Power Supply - 12V power adapter passing 1-2 Amps of current will be sufficient. This should also work with a 24V LED Strip.
 * [ ] Logic Level MOSFET Transistor - I use MOSFETS for this project. They can be any logic-level transistor (most of them start with IRL - the L is for 'logic'). 
-It just needs to be able to turn on with 5v or less of power.
+It just needs to be able to turn on with 5v or less of power. The models I've tested with are IRLU024 and IRL2203. 
 * [ ] Wiring - You need 5 wires to connect the LEDs and Ground. You can find adapters or you can use individual wires. 
 * [ ] *(Optional)* Aluminum Extrusion - although not necessary, an aluminum extrusion will help dissipate heat as well as make your installation more sturdy.
 * [ ] *(Optional)* Pi Case - Something to house your Pi and Relay. You can make your own or if you want, you can just leave it as is but be careful of shorts 
@@ -53,13 +53,26 @@ For this project, you need 4 Mosfets, one for each color. The mosfets then need 
 | Green |    25     |
 | Blue  |    20     |
 | White |    18     |
+| Yellow |   Power | 
+| Black | GND |
 
-If you switch the pins, edit `rgb.py` to reflect the new Pins. 
 
-They must share a common ground. You can connect them all to the different ground pins on the Pi or split one out into all 4. (TODO - Fritz Diagram) 
+In my schematic, I'm using a Yellow wire to represent the 12v power coming from our adapter and it connects to the RGBW's power.  
 
 The mosfets used must be logic level so they can be turned on with the 5 volts of electricity that the Pi can provide. They should also be able to handle whatever 
 voltage and current you pass through to the lights. The lights I use are 12v 5050 SMD LEDs. This project should also work with 24v LEDs. 
+
+The ground connects to the Raspberry Pi and a ground line goes from our Pi to each of the "Source" pins of the MOSFETs. 
+My LED Strip shares common ground. You can connect them all to the different ground pins on the Pi or split one out into all 4. 
+
+The "Drain" pins on our MOSFETS are then connected to each of the colors on the RGBW LED. When the power is turned on for a mosfet, the drain and source pins get 
+connected and power is providedto that color and that's controlled by the "Gate" pin on the MOSFET. This pin is connected to each of the above defined 
+GPIO pins on our Pi. When we send an 'on' signal from the Pi to the Gate Pin, the Drain and Source gets connected. And the faster you do it 
+(Pulse With Modulation) the brighter/more vibrant a color is (up to 255 times a second).   
+
+If you switch the pins, edit `rgbw.py` to reflect the new Pins. 
+
+<img src="./img/RGBWLayout.jpg" width="700px" alt="Circuit Diagram for LED">
 
 Creating a hat for your Pi may be a great way to go. (TODO - Post picture of my Hat)  
 
