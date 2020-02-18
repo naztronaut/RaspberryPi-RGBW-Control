@@ -48,13 +48,13 @@ the Raspberry Pi and some things we learned with JavaScript and jQuery. If you g
 For this project, you need 4 Mosfets, one for each color. The mosfets then need to be connected to the following GPIO Pins:
 
 | Color |  GPIO Pin |
-|-------|:---------:|
+|-------|:---------:| 
 | Red   |    24     | 
-| Green |    25     |
-| Blue  |    20     |
-| White |    18     |
+| Green |    25     | 
+| Blue  |    20     | 
+| White |    18     | 
 | Yellow |   Power | 
-| Black | GND |
+| Black |    GND   |  
 
 
 In my schematic, I'm using a Yellow wire to represent the 12v power coming from our adapter and it connects to the RGBW's power.  
@@ -74,7 +74,6 @@ If you switch the pins, edit `rgbw.py` to reflect the new Pins.
 
 <img src="./img/RGBWLayout.jpg" width="700px" alt="Circuit Diagram for LED">
 
-Creating a hat for your Pi may be a great way to go. (TODO - Post picture of my Hat)  
 
 #### Software
 Follow the tutorial here to learn how to run a Flask app behind Apache: https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php
@@ -153,7 +152,7 @@ I'm using a bunch of libraries to help with various things such as AJAX calls, t
   * obitron.css
   * sourcecodepro.css
   
-Note: All of these dependencies have been localized and include din the `includes` directory. This allows you to use this app without needing to connect to the internet. 
+Note: All of these dependencies have been localized and included in the `static/*` directories. This allows you to use this app without needing to connect to the internet. 
 A simple LAN connection with an internal IP will do. 
 
 #### Apache and WSGI - Web Server
