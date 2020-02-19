@@ -82,7 +82,7 @@ As stated in the above tutorial and in the [Prerequisites](#prerequisites), here
 
 * [ ] Apache
 * [ ] venv (virtual environment)
-* [ ] `activate-this.py` inside your venv
+* [ ] `activate-this.py` inside your venv - you can fi nd this in the `utils/` directory
 * [ ] Mod-WSGI [More info below](#apache-and-wsgi---web-server)
 * [ ] `pigpiod`
 
@@ -124,7 +124,7 @@ if you use another path, change this in the JavaScript to avoid getting 404s on 
 ##### Configurable options
 
 This config object in `script.js` allows you to configure the  URL for your Pi. The default is an ip address but if you can access your Pi via a hostname or domain name,
-just chnage the url properly to reflect the address: 
+just change the url properly to reflect the address: 
 ```javascript
 let config = {
     url: 'http://{{ip_addr}'
@@ -202,6 +202,16 @@ Only a status of `on` or `off` are accepted. Anything else will return a simple 
 
 ### API endpoints
 
+#### `/api/lr`
+
+This endpoint is defined in the apache configuration. If you don't want this to be the end point, change the following in the config:
+
+```apache
+WSGIScriptAlias /api/lr 
+```
+
+I used "lr" for Living Room because that's where these lights are. All endpoints are using simple GET requests, they can be changed in `rgbw.py` if you prefer POST.  
+
 #### `/api/lr?red=255&green=255&blue=255`
 
 You can pass in 4 different query string parameters of red, green, and bluewith values of 0 to 255. A value of 0 means off (or no power) 
@@ -267,6 +277,24 @@ Then enter this in the file and save:
 ```
 
 If you don't do this, the next time your Pi reboots, `pigpiod` won't be running and your lights won't work until you turn it on. 
+
+## Troubleshooting
+
+#### Permissions 
+If you are getting a permissions issue, the repo may have been copied as root instead of pi. Run the following to change ownership:
+
+```
+sudo chown pi:pi *
+```
+
+#### `activate_this.py` unavailable
+
+If for some reason you can't download `activate_this.py`, you can find a copy of it in the `utils/` directory. Run this to copy it over:
+
+```
+sudo cp utils/activate_this.py venv/bin/
+```
+
 
 ## Authors
 * **Nazmus Nasir** - [Nazm.us](https://nazm.us) - Owner of EasyProgramming.net
