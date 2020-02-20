@@ -45,7 +45,7 @@ the Raspberry Pi and some things we learned with JavaScript and jQuery. If you g
 
 ####  Hardware
 
-For this project, you need 4 Mosfets, one for each color. The mosfets then need to be connected to the following GPIO Pins:
+For this project, you need 4 MOSFETs, one for each color. The MOSFETs then need to be connected to the following GPIO Pins:
 
 | Color |  GPIO Pin |
 |-------|:---------:| 
@@ -56,6 +56,8 @@ For this project, you need 4 Mosfets, one for each color. The mosfets then need 
 | Yellow |   Power | 
 | Black |    GND   |  
 
+**Note**: I'm using n N-Channel MOSFET so mine are all common ground, if you use a P-Channel MOSFET, switch to common power.  If you're not sure what you have, consult the datasheet
+for your transistor. 
 
 In my schematic, I'm using a Yellow wire to represent the 12v power coming from our adapter and it connects to the RGBW's power.  
 
@@ -63,7 +65,8 @@ The mosfets used must be logic level so they can be turned on with the 5 volts o
 voltage and current you pass through to the lights. The lights I use are 12v 5050 SMD LEDs. This project should also work with 24v LEDs. 
 
 The ground connects to the Raspberry Pi and a ground line goes from our Pi to each of the "Source" pins of the MOSFETs. 
-My LED Strip shares common ground. You can connect them all to the different ground pins on the Pi or split one out into all 4. 
+As stated in the above note, my LED Strip shares common ground because I'm using an N-channel MOSFET. If you have a P-Channel mosfet, make sure they share common VCC. 
+In my case, I connected them all to the different ground pins on the Pi or split one out into all 4. 
 
 The "Drain" pins on our MOSFETS are then connected to each of the colors on the RGBW LED. When the power is turned on for a mosfet, the drain and source pins get 
 connected and power is providedto that color and that's controlled by the "Gate" pin on the MOSFET. This pin is connected to each of the above defined 
