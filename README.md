@@ -2,9 +2,12 @@
 
 Controlling RGBW LED Strip lights from your browser with a Raspberry Pi Zero.
 
-<center>
-<img src="./img/thumbnail.png" width="600px" alt="RGBW Raspberry Pi Lights">
-</center>
+## Demo
+
+Check out the demo on YouTube by clicking on the following gif: 
+
+<a href="#"><img src="img/RGBWDemo.gif" alt="RGBW LED Strip Control with Pi" /></a>
+
 
 ## Getting Started
 
@@ -202,6 +205,12 @@ As long as you don't open your Pi to the outside world, you should be fine. You 
 If everything is set up correctly, the AJAX call will happen with the following url: `http://{{ip_addr}}/api/kitchen?status=on`
 
 Only a status of `on` or `off` are accepted. Anything else will return a simple error message. Open up the JavaScript console for more info.  
+
+Once everything is done, your app should look something like this:
+
+<center>
+<img src="./img/thumbnail.png" width="600px" alt="RGBW Raspberry Pi Lights">
+</center>
 
 ### API endpoints
 
