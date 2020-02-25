@@ -1,6 +1,8 @@
 # Raspberry Pi - Control RGBW LED Strip from your browser
 
-Controlling RGBW LED Strip lights from your browser with a Raspberry Pi Zero.
+Controlling RGBW LED Strip lights from your browser with a Raspberry Pi Zero. 
+
+More info at https://www.easyprogramming.net/raspberrypi/rgbw_led_strip.php
 
 ## Demo
 
