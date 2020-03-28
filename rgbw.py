@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
 import pigpio
-import json
+import json, time
 
 
 app = Flask(__name__)
 pi = pigpio.pi()
+transition_delay = 0.5
 
 # {{url}}/led?status=on
 @app.route('/', methods=['GET'])
@@ -15,9 +16,42 @@ def led():
     blue = int(request.args.get('blue')) if (request.args.get('blue')) else 0
     # white = int(request.args.get('white')) if (request.args.get('white')) else 0
 
-    pi.set_PWM_dutycycle(24, red)
-    pi.set_PWM_dutycycle(20, blue)
-    pi.set_PWM_dutycycle(25, green)
+    with open('/var/www/html/rgbw/rgb.json', 'r') as f:
+        rgb = json.load(f)
+        oldred = rgb.red
+        oldgreen = rgb.green
+        oldblue = rgb.blue
+
+    if red < oldred:
+        redstep = -1
+    else:
+        redstep = 1
+
+    for x in range(oldred, red, redstep):
+        pi.set_PWM_dutycycle(24, x)
+        time.sleep(transition_delay / (255))
+
+    if green < oldgreen:
+        greenstep = -1
+    else:
+        greenstep = 1
+
+    for x in range(oldgreen, green, greenstep):
+        pi.set_PWM_dutycycle(25, x)
+        time.sleep(transition_delay / (255))
+
+    if blue < oldblue:
+        bluestep = -1
+    else:
+        bluestep = 1
+
+    for x in range(oldred, blue, bluestep):
+        pi.set_PWM_dutycycle(20, x)
+        time.sleep(transition_delay / (255))
+
+    # pi.set_PWM_dutycycle(24, red)
+    # pi.set_PWM_dutycycle(20, blue)
+    # pi.set_PWM_dutycycle(25, green)
     # pi.set_PWM_dutycycle(18, white)
 
     # return jsonify({"red": red, "green": green, "blue": blue, "white": white})
