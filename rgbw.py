@@ -18,9 +18,9 @@ def led():
 
     with open('/var/www/html/rgbw/rgb.json', 'r') as f:
         rgb = json.load(f)
-        oldred = rgb.red
-        oldgreen = rgb.green
-        oldblue = rgb.blue
+        oldred = rgb['red']
+        oldgreen = rgb['green']
+        oldblue = rgb['blue']
 
     if red < oldred:
         redstep = -1
