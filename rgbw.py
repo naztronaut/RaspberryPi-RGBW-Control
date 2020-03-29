@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify
 import pigpio
 import json, time
-
+# from multiprocessing import Process
 
 app = Flask(__name__)
 pi = pigpio.pi()
 transition_delay = 0.5
+red_pin = 24
+green_pin = 25
+blue_bin = 20
+white_pin = 18
 
 # {{url}}/led?status=on
 @app.route('/', methods=['GET'])
@@ -22,32 +26,40 @@ def led():
         oldgreen = rgb['green']
         oldblue = rgb['blue']
 
-    if red < oldred:
-        redstep = -1
-    else:
-        redstep = 1
+    change_led(oldred, red, red_pin)
+    change_led(oldgreen, green, green_pin)
+    change_led(oldblue, blue, blue_bin)
 
-    for x in range(oldred, red, redstep):
-        pi.set_PWM_dutycycle(24, x)
-        time.sleep(transition_delay / (255))
-
-    if green < oldgreen:
-        greenstep = -1
-    else:
-        greenstep = 1
-
-    for x in range(oldgreen, green, greenstep):
-        pi.set_PWM_dutycycle(25, x)
-        time.sleep(transition_delay / (255))
-
-    if blue < oldblue:
-        bluestep = -1
-    else:
-        bluestep = 1
-
-    for x in range(oldred, blue, bluestep):
-        pi.set_PWM_dutycycle(20, x)
-        time.sleep(transition_delay / (255))
+    # TODO: Look into multi processing later
+    # p_red = Process(target=change_led, args=(oldred, red, red_pin))
+    # p_green = Process(target=change_led, args=(oldgreen, green, green_pin))
+    # p_blue = Process(target=change_led, args=(oldblue, blue, blue_bin))
+    # if red < oldred:
+    #     redstep = -1
+    # else:
+    #     redstep = 1
+    #
+    # for x in range(oldred, red, redstep):
+    #     pi.set_PWM_dutycycle(24, x)
+    #     time.sleep(transition_delay / (255))
+    #
+    # if green < oldgreen:
+    #     greenstep = -1
+    # else:
+    #     greenstep = 1
+    #
+    # for x in range(oldgreen, green, greenstep):
+    #     pi.set_PWM_dutycycle(25, x)
+    #     time.sleep(transition_delay / (255))
+    #
+    # if blue < oldblue:
+    #     bluestep = -1
+    # else:
+    #     bluestep = 1
+    #
+    # for x in range(oldred, blue, bluestep):
+    #     pi.set_PWM_dutycycle(20, x)
+    #     time.sleep(transition_delay / (255))
 
     # pi.set_PWM_dutycycle(24, red)
     # pi.set_PWM_dutycycle(20, blue)
@@ -78,3 +90,16 @@ def get_status():
 
     with open('/var/www/html/rgbw/' + colors + '.json', 'r') as f:
         return json.load(f)
+
+
+def change_led(current_color, new_color, pin):
+    if new_color < current_color:
+        step = -1
+        delay = transition_delay / (current_color - new_color)
+    else:
+        step = 1
+        delay = transition_delay / (new_color - current_color)
+
+    for x in range(current_color, new_color, step):
+        pi.set_PWM_dutycycle(pin, x)
+        time.sleep(delay)
