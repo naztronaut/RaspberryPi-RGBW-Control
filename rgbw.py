@@ -92,13 +92,16 @@ def get_status():
         return json.load(f)
 
 
+# TODO: Move to separate file to clean up
 def change_led(current_color, new_color, pin):
     if new_color < current_color:
         step = -1
-        delay = transition_delay / (current_color - new_color)
+        # +1 So it's never divided by 0
+        delay = transition_delay / (current_color - new_color + 1)
     else:
         step = 1
-        delay = transition_delay / (new_color - current_color)
+        # So it's never divided by 0
+        delay = transition_delay / (new_color - current_color + 1)
 
     for x in range(current_color, new_color, step):
         pi.set_PWM_dutycycle(pin, x)
